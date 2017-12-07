@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankPlayerController.h"
+#include "GameFramework/Actor.h"
 
 ATank * ATankPlayerController::GetControlledTank() const
 {
@@ -29,15 +30,36 @@ void ATankPlayerController::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 	
 	AimTowardCrosshair();
-
-	UE_LOG(LogTemp, Warning, TEXT("PlayerController Tick"));
 }
 
 void ATankPlayerController::AimTowardCrosshair()
 {
 	if (!GetControlledTank()) { return; }
 
+	FVector HitLocation;
+
 	// Get world location through crosshair (line trace)
-	// If it hits landscape
-		// Tell controlled tank to aim at this point
+	if (GetSightRayHitLocation(HitLocation))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
+		// TODO Tell controlled tank to aim at this point
+	}
+}
+
+bool ATankPlayerController::GetSightRayHitLocation(FVector & HitLocation) const
+{
+	// Get PlayerUI object
+	// Get AimPoint from Player UI
+
+	// Project AimPoint into 3D Point
+	// Cast Ray from AimPoint into world
+
+	// If hit, update HitLocation and return true
+	// Else Return false
+
+	//auto PlayerController = GetWorld()->GetFirstPlayerController();
+	//PlayerController->Find
+
+	HitLocation = FVector(1.0f);
+	return true;
 }
