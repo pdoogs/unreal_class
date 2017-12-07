@@ -23,3 +23,23 @@ void ATankAIController::BeginPlay()
 
 	UE_LOG(LogTemp, Warning, TEXT("TankAIController Begin Play"));
 }
+
+ATank * ATankAIController::GetPlayerTank() const
+{
+	APawn * PlayerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
+	if (PlayerPawn) {
+		return Cast<ATank>(PlayerPawn);
+	}
+	return nullptr;
+}
+
+void ATankAIController::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+	ATank * PlayerTank = GetPlayerTank();
+	if (PlayerTank)
+	{
+		GetControlledTank()->AimAt(PlayerTank->GetActorLocation());
+	}
+}
