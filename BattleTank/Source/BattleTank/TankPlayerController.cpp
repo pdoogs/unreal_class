@@ -41,7 +41,7 @@ void ATankPlayerController::AimTowardCrosshair()
 	// Get world location through crosshair (line trace)
 	if (GetSightRayHitLocation(HitLocation))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
+		//UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
 		// TODO Tell controlled tank to aim at this point
 	}
 }
@@ -60,6 +60,18 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector & HitLocation) const
 	//auto PlayerController = GetWorld()->GetFirstPlayerController();
 	//PlayerController->Find
 
+	// Find the crosshair position
+	int32 ViewportSizeX, ViewportSizeY;
+	GetViewportSize(ViewportSizeX, ViewportSizeY);
+
+	FVector2D ScreenLocation(
+		ViewportSizeX * CrosshairXLocation,
+		ViewportSizeY * CrosshairYLocation);
+
+	UE_LOG(LogTemp, Warning, TEXT("ScreenLocation: %s"), *ScreenLocation.ToString());
+
+	// Deproject screen position to world direction
+	// Line along that look direction and see what we hit up to max range
 	HitLocation = FVector(1.0f);
 	return true;
 }
