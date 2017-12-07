@@ -67,7 +67,7 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector & HitLocation) const
 		ViewportSizeX * CrosshairXLocation,
 		ViewportSizeY * CrosshairYLocation);
 
-	UE_LOG(LogTemp, Warning, TEXT("Screen Location: %s"), *ScreenLocation.ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("Screen Location: %s"), *ScreenLocation.ToString());
 
 	FVector LookDirection;
 	FVector CameraLocation;
@@ -75,17 +75,17 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector & HitLocation) const
 	{
 		if (GetLookVectorHitLocation(HitLocation, LookDirection))
 		{
-			UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
+			//UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
 			return true;
 		}
 		else
 		{
 			FVector ZeroVector(0.f);
-			UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *ZeroVector.ToString());
+			//UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *ZeroVector.ToString());
 		}
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("LookDirection: %s"), *LookDirection.ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("LookDirection: %s"), *LookDirection.ToString());
 
 	// Deproject screen position to world direction
 	// Line along that look direction and see what we hit up to max range
@@ -99,7 +99,7 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector & HitLocation, FVec
 	FVector Start = PlayerCameraManager->GetCameraLocation();
 	FVector End = Start + (LookDirection * LineTraceRange);
 
-	UE_LOG(LogTemp, Warning, TEXT("Start: %s, End: %s"), *Start.ToString(), *End.ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("Start: %s, End: %s"), *Start.ToString(), *End.ToString());
 	if (GetWorld()->LineTraceSingleByChannel(
 		HitResult,
 		Start,
