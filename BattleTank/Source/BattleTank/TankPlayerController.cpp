@@ -68,10 +68,26 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector & HitLocation) const
 		ViewportSizeX * CrosshairXLocation,
 		ViewportSizeY * CrosshairYLocation);
 
-	UE_LOG(LogTemp, Warning, TEXT("ScreenLocation: %s"), *ScreenLocation.ToString());
+	FVector LookDirection;
+	if (GetLookDirection(ScreenLocation, LookDirection))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("LookDirection: %s"), *LookDirection.ToString());
+	}
+
+
 
 	// Deproject screen position to world direction
 	// Line along that look direction and see what we hit up to max range
 	HitLocation = FVector(1.0f);
 	return true;
+}
+
+bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector & WorldDirection) const
+{
+	FVector CameraWorldLocation;
+	return DeprojectScreenPositionToWorld(
+		ScreenLocation.X, 
+		ScreenLocation.Y, 
+		CameraWorldLocation, 
+		WorldDirection);
 }
