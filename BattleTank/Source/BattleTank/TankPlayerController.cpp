@@ -67,6 +67,8 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector & HitLocation) const
 		ViewportSizeX * CrosshairXLocation,
 		ViewportSizeY * CrosshairYLocation);
 
+	UE_LOG(LogTemp, Warning, TEXT("Screen Location: %s"), *ScreenLocation.ToString());
+
 	FVector LookDirection;
 	FVector CameraLocation;
 	if (GetLookDirection(ScreenLocation, LookDirection))
@@ -74,6 +76,7 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector & HitLocation) const
 		if (GetLookVectorHitLocation(HitLocation, LookDirection))
 		{
 			UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
+			return true;
 		}
 		else
 		{
@@ -82,10 +85,12 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector & HitLocation) const
 		}
 	}
 
+	UE_LOG(LogTemp, Warning, TEXT("LookDirection: %s"), *LookDirection.ToString());
+
 	// Deproject screen position to world direction
 	// Line along that look direction and see what we hit up to max range
-	HitLocation = FVector(1.0f);
-	return true;
+	//HitLocation = FVector(1.0f);
+	return false;
 }
 
 bool ATankPlayerController::GetLookVectorHitLocation(FVector & HitLocation, FVector LookDirection) const
@@ -116,4 +121,7 @@ bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector &
 		ScreenLocation.Y, 
 		CameraLocation, 
 		WorldDirection);
+
+	// TODO Figure out why DeprojectScreenPositionToWorld return false even though WorldDirection is valid
+	return true;
 }
