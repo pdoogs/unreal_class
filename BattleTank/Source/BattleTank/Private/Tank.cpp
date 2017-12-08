@@ -32,16 +32,14 @@ void ATank::Fire()
 
 	UE_LOG(LogTemp, Warning, TEXT("ATank::Fire"));
 
-	//auto Location = Barrel->GetSocketLocation(FName("Projectile"));
-	//UE_LOG(LogTemp, Warning, TEXT("Socket Location: %s"), *(Location.ToString()));
-
-
 	// Spawn a projectile at the barrel location
-	GetWorld()->SpawnActor<AProjectile>(
+	auto Projectile = GetWorld()->SpawnActor<AProjectile>(
 		ProjectileBlueprint,
 		Barrel->GetSocketLocation(FName("Projectile")),
 		Barrel->GetSocketRotation(FName("Projectile"))
 		);
+
+	Projectile->LaunchProjectile(LaunchSpeed);
 }
 
 // Called when the game starts or when spawned
