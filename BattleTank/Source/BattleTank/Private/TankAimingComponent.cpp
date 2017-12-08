@@ -4,6 +4,7 @@
 #include "GameFramework/Actor.h"
 #include "Classes/Kismet/GameplayStatics.h"
 #include "TankBarrel.h"
+#include "Public/DrawDebugHelpers.h"
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -27,8 +28,8 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	FVector OutLaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
 
-	//UE_LOG(LogTemp, Warning, TEXT("StartLocation: %s"), *StartLocation.ToString());
-	//UE_LOG(LogTemp, Warning, TEXT("EndLocation: %s"), *HitLocation.ToString());
+	UE_LOG(LogTemp, Warning, TEXT("StartLocation: %s"), *StartLocation.ToString());
+	UE_LOG(LogTemp, Warning, TEXT("EndLocation: %s"), *HitLocation.ToString());
 
 	// calculate hte out launch velocity
 	const bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(
@@ -52,23 +53,35 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 
 		MoveBarrelTowards(AimDirection);
 
-		UE_LOG(LogTemp, Warning, TEXT("Barrel AimDirection"), *AimDirection.ToString());
+		UE_LOG(LogTemp, Warning, TEXT("%s Barrel AimDirection %s"), *(GetOwner()->GetName()), *AimDirection.ToString());
+
+		DrawDebugLine(
+			GetWorld(),
+			StartLocation,
+			StartLocation + 1000 * AimDirection,
+			FColor(255, 0, 0),
+			false, -1, 0,
+			12.333
+		);
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("No aim solve found"));
+		UE_LOG(LogTemp, Warning, TEXT("%s No aim solve found"), *(GetOwner()->GetName()));
 	}
 }
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
 	// Find Desired Pitch
-	// LERP from current pitch to desired pitch over x seconds
+	
 
 	// Work out difference between current barrel rotation and AimDirection
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
+
+	UE_LOG(LogTemp, Warning, TEXT("%s BarrelRotator: %s, AimAsRotator: %s"), *(GetOwner()->GetName()), *BarrelRotator.ToString(), *AimAsRotator.ToString());
+
 	UE_LOG(LogTemp, Warning, TEXT("%s DeltaRotator: %s"), *(GetOwner()->GetName()), *DeltaRotator.ToString());
 
 	Barrel->Elevate(DeltaRotator.Pitch); // TODO remove magic number
