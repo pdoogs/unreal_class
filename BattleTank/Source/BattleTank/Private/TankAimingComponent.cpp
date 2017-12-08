@@ -4,6 +4,7 @@
 #include "GameFramework/Actor.h"
 #include "Classes/Kismet/GameplayStatics.h"
 #include "TankBarrel.h"
+#include "TankTurret.h"
 #include "Public/DrawDebugHelpers.h"
 
 // Sets default values for this component's properties
@@ -21,9 +22,14 @@ void UTankAimingComponent::SetBarrelReference(UTankBarrel * BarrelToSet)
 	Barrel = BarrelToSet;
 }
 
+void UTankAimingComponent::SetTurretReference(UTankTurret * TurretToSet)
+{
+	Turret = TurretToSet;
+}
+
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
-	if (!Barrel) return;
+	if (!Barrel || !Turret) return;
 
 	FVector OutLaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
@@ -85,4 +91,6 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	UE_LOG(LogTemp, Warning, TEXT("%s DeltaRotator: %s"), *(GetOwner()->GetName()), *DeltaRotator.ToString());
 
 	Barrel->Elevate(DeltaRotator.Pitch); // TODO remove magic number
+
+	Turret->Rotate(DeltaRotator.Yaw);
 }
