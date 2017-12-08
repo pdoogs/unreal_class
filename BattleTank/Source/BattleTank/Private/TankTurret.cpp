@@ -14,7 +14,7 @@ void UTankTurret::Rotate(float RelativeSpeed)
 
 	UE_LOG(LogTemp, Warning, TEXT("MaxDegreesPerSecond: %f, DeltaSeconds %f"), MaxDegreesPerSecond, GetWorld()->GetDeltaSeconds());
 
-	auto RotationChange = RelativeSpeed * GetWorld()->GetDeltaSeconds();
+	auto RotationChange = RelativeSpeed * MaxDegreesPerSecond * GetWorld()->GetDeltaSeconds();
 	UE_LOG(LogTemp, Warning, TEXT("%s UTankBarrel::Elevate RotationChange: %f"), *(GetOwner()->GetName()), RotationChange);
 
 	auto RawNewRotation = RelativeRotation.Yaw + RotationChange;
