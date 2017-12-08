@@ -35,10 +35,10 @@ protected:
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
 private:	
-	UPROPERTY(EditAnywhere, Category = Firing)
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float LaunchSpeed = 4000;
 
-	UPROPERTY(EditAnywhere, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	TSubclassOf<AProjectile> ProjectileBlueprint; // alternative TSubclassOf
 
 	UTankBarrel * Barrel; // Local barrel reference for spawning projectile
