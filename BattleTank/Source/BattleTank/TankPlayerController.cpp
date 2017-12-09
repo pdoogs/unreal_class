@@ -2,6 +2,7 @@
 
 #include "TankPlayerController.h"
 #include "GameFramework/Actor.h"
+#include "TankAimingComponent.h"
 
 ATank * ATankPlayerController::GetControlledTank() const
 {
@@ -11,6 +12,15 @@ ATank * ATankPlayerController::GetControlledTank() const
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	if (AimingComponent)
+	{
+		FoundAimingComponent(AimingComponent);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("ATankPlayerController::BeginPlay Player Controller can't find aiming componennt at BeginPlay"));
+	}
 }
 
 void ATankPlayerController::Tick(float DeltaSeconds)
