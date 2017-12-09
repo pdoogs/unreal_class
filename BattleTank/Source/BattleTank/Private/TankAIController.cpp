@@ -18,8 +18,7 @@ void ATankAIController::Tick(float DeltaSeconds)
 	if (!GetPawn()) return;
 
 	auto PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
-	auto ControlledTank = GetPawn();
-	if (!ensure(PlayerTank && ControlledTank)) { return; }
+	if (!ensure(PlayerTank)) { return; }
 
 	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponent)) { return; }
@@ -27,8 +26,5 @@ void ATankAIController::Tick(float DeltaSeconds)
 	MoveToActor(PlayerTank, AcceptanceRadius); // TODO check radius is in cm
 
 	AimingComponent->AimAt(PlayerTank->GetActorLocation());
-	auto PlayerTankAsTank = Cast<ATank>(PlayerTank);
-	if (ensure(PlayerTankAsTank)) {
-		PlayerTankAsTank->Fire(); // Don't Fire every frame
-	}
+	AimingComponent->Fire();
 }
