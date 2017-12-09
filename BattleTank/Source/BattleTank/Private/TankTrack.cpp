@@ -4,7 +4,6 @@
 
 UTankTrack::UTankTrack()
 {
-	PrimaryComponentTick.bCanEverTick = true;
 }
 
 void UTankTrack::BeginPlay()
@@ -12,11 +11,11 @@ void UTankTrack::BeginPlay()
 	OnComponentHit.AddDynamic(this, &UTankTrack::OnHit);
 }
 
-void UTankTrack::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UTankTrack::ApplySidewaysForce()
 {
-	auto SlippageSpeed = FVector::DotProduct(GetComponentVelocity(), GetRightVector());
-
 	// Work-out the required acceleration this frame to correct
+	auto SlippageSpeed = FVector::DotProduct(GetComponentVelocity(), GetRightVector());
+	auto DeltaTime = GetWorld()->GetDeltaSeconds();
 	auto CorrectionAcceleration = -SlippageSpeed / DeltaTime * GetRightVector();
 
 	// Calculate and apply sideways force - F = ma
@@ -28,7 +27,10 @@ void UTankTrack::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompo
 
 void UTankTrack::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	UE_LOG(LogTemp, Warning, TEXT("OnHit"));
+	// Drive tracks
+	// Apply sideways force
+	ApplySidewaysForce();
+
 }
 
 void UTankTrack::SetThrottle(float Throttle)
