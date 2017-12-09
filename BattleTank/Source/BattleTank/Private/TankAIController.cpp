@@ -20,7 +20,7 @@ void ATankAIController::Tick(float DeltaSeconds)
 			PlayerTank,
 			AcceptanceRadius); // TODO check radius is in cm
 
-		UE_LOG(LogTemp, Warning, TEXT("MovingToActor %s"), *PlayerTank->GetName());
+		//UE_LOG(LogTemp, Warning, TEXT("MovingToActor %s"), *PlayerTank->GetName());
 
 		auto ControlledTank = Cast<ATank>(GetPawn());
 
