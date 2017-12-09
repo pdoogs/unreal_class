@@ -11,6 +11,18 @@ ATank::ATank()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
+
+	auto TankName = GetName();
+	UE_LOG(LogTemp, Warning, TEXT("ATank::ATank %s"), *TankName);
+}
+
+void ATank::BeginPlay()
+{
+	// Needed for Blueprint BeginPlay to run
+	Super::BeginPlay();
+
+	auto TankName = GetName();
+	UE_LOG(LogTemp, Warning, TEXT("ATank::BeginPlay %s"), *TankName);
 }
 
 UFUNCTION(BlueprintCallable, Category = "Setup")
@@ -24,8 +36,6 @@ void ATank::Fire()
 	bool bIsReloaded = FPlatformTime::Seconds() - LastFireTime > ReloadTimeInSeconds;
 	if (Barrel && bIsReloaded)
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("ATank::Fire"));
-
 		// Spawn a projectile at the barrel location
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
 			ProjectileBlueprint,
