@@ -25,7 +25,11 @@ void UTankAimingComponent::BeginPlay()
 
 void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
 {
-	if (FPlatformTime::Seconds() - LastFireTime < ReloadTimeInSeconds)
+	if (FiringState == EFiringState::OutOfAmmo)
+	{
+		return;
+	}
+	else if (FPlatformTime::Seconds() - LastFireTime < ReloadTimeInSeconds)
 	{
 		FiringState = EFiringState::Reloading;
 	}
@@ -42,6 +46,11 @@ void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickTy
 EFiringState UTankAimingComponent::GetFiringState() const
 {
 	return FiringState;
+}
+
+int32 UTankAimingComponent::GetRoundsLeft() const
+{
+	return RoundsLeft;
 }
 
 
@@ -133,7 +142,8 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirectionIn)
 
 void UTankAimingComponent::Fire()
 {
-	if (FiringState != EFiringState::Reloading)
+	if (FiringState != EFiringState::Reloading && 
+		FiringState != EFiringState::OutOfAmmo)
 	{
 		if (!ensure(Barrel)) { return; }
 		if (!ensure(ProjectileBlueprint)) { return; }
@@ -145,9 +155,28 @@ void UTankAimingComponent::Fire()
 			Barrel->GetSocketRotation(FName("Projectile"))
 			);
 
+		// Debug Draw Firing Path
+		/*
+		auto LineStart = Barrel->GetSocketLocation(FName("Projectile"));
+		auto LineDir = Barrel->GetSocketRotation(FName("Projectile")).Vector().GetSafeNormal();
+		DrawDebugLine(
+			GetWorld(),
+			LineStart,
+			LineStart + 1000 * LineDir,
+			FColor(0, 0, 0xff),
+			true);
+			*/
+
 		if (Projectile)
 		{
 			Projectile->LaunchProjectile(LaunchSpeed);
+			RoundsLeft--;
+
+			if (RoundsLeft <= 0)
+			{
+				RoundsLeft = 0;
+				FiringState = EFiringState::OutOfAmmo;
+			}
 		}
 		LastFireTime = FPlatformTime::Seconds();
 	}
