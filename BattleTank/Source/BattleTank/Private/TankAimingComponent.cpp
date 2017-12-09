@@ -103,7 +103,12 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirectionIn)
 
 	Barrel->Elevate(DeltaRotator.Pitch);
 
-	Turret->Rotate(DeltaRotator.Yaw);
+	auto Yaw = DeltaRotator.Yaw;
+	if (Yaw < -180 || Yaw > 180)
+	{
+		Yaw *= -1;
+	}
+	Turret->Rotate(Yaw);
 
 	// Debug Projectile Line
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));

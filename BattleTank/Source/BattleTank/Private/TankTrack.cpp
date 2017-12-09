@@ -40,7 +40,6 @@ void UTankTrack::ResetThrottle()
 
 void UTankTrack::SetThrottle(float Throttle)
 {
-	UE_LOG(LogTemp, Warning, TEXT("CurrentThrottle = %f"), CurrentThrottle);
 	CurrentThrottle = FMath::Clamp(Throttle + CurrentThrottle, -1.f, 1.f);
 	DriveTrack();
 }
