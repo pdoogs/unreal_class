@@ -60,7 +60,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		MoveBarrelTowards(AimDirection);
 
 		//UE_LOG(LogTemp, Warning, TEXT("%s Barrel AimDirection %s"), *(GetOwner()->GetName()), *AimDirection.ToString());
-
+		/*
 		DrawDebugLine(
 			GetWorld(),
 			StartLocation,
@@ -69,6 +69,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 			false, -1, 0,
 			12.333
 		);
+		*/
 	}
 	else
 	{
@@ -93,4 +94,18 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	Barrel->Elevate(DeltaRotator.Pitch);
 
 	Turret->Rotate(DeltaRotator.Yaw);
+
+	// Debug Projectile Line
+	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
+	auto BarrelRotation = Barrel->GetForwardVector().Rotation();
+	auto BarrelDir = BarrelRotation.Vector().GetSafeNormal();
+	DrawDebugLine(
+		GetWorld(),
+		StartLocation,
+		StartLocation + 1000 * BarrelDir,
+		FColor(255, 0, 0),
+		false, -1, 0,
+		12.333
+	);
+
 }
