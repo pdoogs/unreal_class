@@ -1,7 +1,6 @@
 // Copyright Patrick Dugan
 
 #include "Tank.h"
-#include "TankAimingComponent.h"
 #include "Projectile.h"
 #include "TankBarrel.h"
 
@@ -47,13 +46,4 @@ void ATank::Fire()
 
 		LastFireTime = FPlatformTime::Seconds();
 	}
-}
-
-void ATank::AimAt(FVector HitLocation)
-{
-	auto TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
-	
-	if (!ensure(TankAimingComponent)) return;
-
-	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
 }
