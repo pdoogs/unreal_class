@@ -27,8 +27,6 @@ void UTankMovementComponent::IntendTurnRight(float Throw)
 
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(-Throw);
-
-	// TODO prevent double-speed due to dual control use
 }
 
 void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
@@ -41,7 +39,4 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 
 	auto RightThrow = FVector::CrossProduct(AIForwardIntention, TankForward).Z;
 	IntendTurnRight(RightThrow);
-	
-
-	//UE_LOG(LogTemp, Warning, TEXT("%s RequestDirectMove MoveVelocity=%s"), *TankName, *MoveVelocityString);
 }
