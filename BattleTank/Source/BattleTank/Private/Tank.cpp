@@ -12,16 +12,12 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 
 	auto TankName = GetName();
-	UE_LOG(LogTemp, Warning, TEXT("ATank::ATank %s"), *TankName);
 }
 
 void ATank::BeginPlay()
 {
 	// Needed for Blueprint BeginPlay to run
 	Super::BeginPlay();
-
-	auto TankName = GetName();
-	UE_LOG(LogTemp, Warning, TEXT("ATank::BeginPlay %s"), *TankName);
 }
 
 UFUNCTION(BlueprintCallable, Category = "Setup")
@@ -55,6 +51,8 @@ void ATank::Fire()
 
 void ATank::AimAt(FVector HitLocation)
 {
+	auto TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
+	
 	if (!ensure(TankAimingComponent)) return;
 
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);

@@ -29,8 +29,6 @@ void AProjectile::Tick(float DeltaTime)
 
 void AProjectile::LaunchProjectile(float Speed)
 {
-	//auto Location = Barrel->GetSocketLocation(FName("Projectile"));
-	//UE_LOG(LogTemp, Warning, TEXT("Projectile Fires %f"), Speed);
 	ProjectileMovementComponent->SetVelocityInLocalSpace(GetActorForwardVector() * Speed);
 	ProjectileMovementComponent->Activate();
 }
