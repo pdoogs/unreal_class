@@ -30,13 +30,25 @@ void UTankTrack::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UP
 	// Drive tracks
 	// Apply sideways force
 	ApplySidewaysForce();
+	ResetThrottle();
+}
 
+void UTankTrack::ResetThrottle()
+{
+	CurrentThrottle = 0;
 }
 
 void UTankTrack::SetThrottle(float Throttle)
 {
+	UE_LOG(LogTemp, Warning, TEXT("CurrentThrottle = %f"), CurrentThrottle);
+	CurrentThrottle = FMath::Clamp(Throttle + CurrentThrottle, -1.f, 1.f);
+	DriveTrack();
+}
+
+void UTankTrack::DriveTrack()
+{
 	// TODO Clamp actual Throttle value so Player can't speed up tank
-	auto ForceApplied = GetForwardVector() * Throttle * TrackMaxDrivingForce;
+	auto ForceApplied = GetForwardVector() * CurrentThrottle * TrackMaxDrivingForce;
 	auto ForceLocation = GetComponentLocation();
 	auto TankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
 	TankRoot->AddForceAtLocation(ForceApplied, ForceLocation);
