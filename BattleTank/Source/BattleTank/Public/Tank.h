@@ -24,7 +24,11 @@ public:
 
 	FTankDelegate OnTankDeath;
 
-private:	
+private:
+	ATank();
+
+	virtual void BeginPlay() override;
+
 	virtual float TakeDamage
 	(
 		float DamageAmount,
@@ -32,8 +36,6 @@ private:
 		class AController * EventInstigator,
 		AActor * DamageCauser
 	) override;
-
-	ATank();
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	int32 StartingHealth = 100;

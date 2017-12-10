@@ -11,6 +11,14 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 }
 
+void ATank::BeginPlay()
+{
+	Super::BeginPlay();
+
+	// Fix bug where Blueprint value not being set
+	CurrentHealth = StartingHealth;
+}
+
 float ATank::TakeDamage(
 	float DamageAmount,
 	struct FDamageEvent const & DamageEvent,
