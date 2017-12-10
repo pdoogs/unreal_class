@@ -18,7 +18,7 @@ void ATankAIController::Tick(float DeltaSeconds)
 	if (!GetPawn()) return;
 
 	auto PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
-	if (!ensure(PlayerTank)) { return; }
+	if (!PlayerTank) { return; }
 
 	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponent)) { return; }
@@ -53,7 +53,7 @@ void ATankAIController::SetPawn(APawn * InPawn)
 void ATankAIController::OnTankDeath()
 {
 	UE_LOG(LogTemp, Warning, TEXT("--- AI Tank Died!!!!!"));
-	if (ensure(GetPawn()))
+	if (GetPawn())
 	{
 		GetPawn()->DetachFromControllerPendingDestroy();
 	}
