@@ -131,16 +131,12 @@ void ATankPlayerController::SetPawn(APawn * InPawn)
 		ATank* PossessedTank = Cast<ATank>(InPawn);
 		if (!PossessedTank) { return; }
 
-		UE_LOG(LogTemp, Warning, TEXT("--- PlayerController Registered OnTankDeath"));
-
-		// TODO Subscribe our local method to Tank's Death Event
 		PossessedTank->OnTankDeath.AddUniqueDynamic(this, &ATankPlayerController::OnTankDeath);
 	}
 }
 
 void ATankPlayerController::OnTankDeath()
 {
-	UE_LOG(LogTemp, Warning, TEXT("--- Player Tank Died!!!!!"));
 	StartSpectatingOnly();
 
 	if (GetPawn())

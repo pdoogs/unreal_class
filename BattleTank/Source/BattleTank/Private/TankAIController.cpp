@@ -43,16 +43,12 @@ void ATankAIController::SetPawn(APawn * InPawn)
 		ATank* PossessedTank = Cast<ATank>(InPawn);
 		if (!PossessedTank) { return; }
 	
-		UE_LOG(LogTemp, Warning, TEXT("--- AI Controller Registered OnTankDeath"));
-
-		// TODO Subscribe our local method to Tank's Death Event
 		PossessedTank->OnTankDeath.AddUniqueDynamic(this, &ATankAIController::OnTankDeath);
 	}
 }
 
 void ATankAIController::OnTankDeath()
 {
-	UE_LOG(LogTemp, Warning, TEXT("--- AI Tank Died!!!!!"));
 	if (GetPawn())
 	{
 		GetPawn()->DetachFromControllerPendingDestroy();
