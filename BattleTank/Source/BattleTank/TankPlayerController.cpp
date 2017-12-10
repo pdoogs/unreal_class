@@ -3,6 +3,7 @@
 #include "TankPlayerController.h"
 #include "GameFramework/Actor.h"
 #include "TankAimingComponent.h"
+#include "Tank.h"
 
 void ATankPlayerController::BeginPlay()
 {
@@ -120,4 +121,24 @@ bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector &
 
 	// TODO Figure out why DeprojectScreenPositionToWorld return false even though WorldDirection is valid
 	return true;
+}
+
+void ATankPlayerController::SetPawn(APawn * InPawn)
+{
+	Super::SetPawn(InPawn);
+	if (InPawn)
+	{
+		ATank* PossessedTank = Cast<ATank>(InPawn);
+		if (!PossessedTank) { return; }
+
+		UE_LOG(LogTemp, Warning, TEXT("--- PlayerController Registered OnTankDeath"));
+
+		// TODO Subscribe our local method to Tank's Death Event
+		PossessedTank->OnTankDeath.AddUniqueDynamic(this, &ATankPlayerController::OnTankDeath);
+	}
+}
+
+void ATankPlayerController::OnTankDeath()
+{
+	UE_LOG(LogTemp, Warning, TEXT("--- Player Tank Died!!!!!"));
 }
