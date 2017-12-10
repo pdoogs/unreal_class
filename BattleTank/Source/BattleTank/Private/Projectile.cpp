@@ -36,7 +36,7 @@ void AProjectile::BeginPlay()
 
 void AProjectile::LaunchProjectile(float Speed)
 {
-	ProjectileMovementComponent->SetVelocityInLocalSpace(GetActorForwardVector() * Speed);
+	ProjectileMovementComponent->SetVelocityInLocalSpace(FVector::ForwardVector * Speed);
 	ProjectileMovementComponent->Activate();
 }
 
