@@ -58,7 +58,8 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 		TimerHandle,
 		this,
 		&AProjectile::DestroyTimerExpired,
-		DestroyDelay);
+		DestroyDelay,
+		false);
 }
 
 void AProjectile::DestroyTimerExpired()
