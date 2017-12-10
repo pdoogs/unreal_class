@@ -34,3 +34,23 @@ void ATankAIController::Tick(float DeltaSeconds)
 		AimingComponent->Fire();
 	}
 }
+
+void ATankAIController::SetPawn(APawn * InPawn)
+{
+	Super::SetPawn(InPawn);
+	if (InPawn)
+	{
+		ATank* PossessedTank = Cast<ATank>(InPawn);
+		if (!PossessedTank) { return; }
+	
+		UE_LOG(LogTemp, Warning, TEXT("--- Registered OnTankDeath"));
+
+		// TODO Subscribe our local method to Tank's Death Event
+		PossessedTank->OnTankDeath.AddUniqueDynamic(this, &ATankAIController::OnTankDeath);
+	}
+}
+
+void ATankAIController::OnTankDeath()
+{
+	UE_LOG(LogTemp, Warning, TEXT("--- Tank Died!!!!!"));
+}
