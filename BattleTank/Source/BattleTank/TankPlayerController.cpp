@@ -31,7 +31,6 @@ void ATankPlayerController::AimTowardCrosshair()
 
 	FVector HitLocation;
 	bool bGotHitLocation = GetSightRayHitLocation(HitLocation);
-	UE_LOG(LogTemp, Warning, TEXT("bGotHitLocation %i"), bGotHitLocation);
 
 	// Get world location through crosshair (line trace)
 	if (bGotHitLocation)

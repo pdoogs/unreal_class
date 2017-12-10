@@ -18,5 +18,15 @@ class BATTLETANK_API ATank : public APawn
 public:
 
 private:	
+	virtual float TakeDamage
+	(
+		float DamageAmount,
+		struct FDamageEvent const & DamageEvent,
+		class AController * EventInstigator,
+		AActor * DamageCauser
+	) override;
+
 	ATank();
+
+	float CurrentHealth = 100;
 };
